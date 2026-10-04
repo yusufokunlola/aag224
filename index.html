@@ -1636,19 +1636,40 @@
 
     // Default Registry Item Master List
     const registryItems = [
-      { id: "item-car", title: "Family Car Fund 🚗", price: 9000000, type: "Cash Fund", requested: "Contribution", icon: "fa-solid fa-car-side", status: "available" },
-      { id: "item-land", title: "Land & Property Foundation Fund 🏡", price: 1500000, type: "Cash Fund", requested: "Contribution", icon: "fa-solid fa-map-location-dot", status: "available" },
-      { id: "item-solar", title: "Solar and Inverter System (Pure Sine)", price: 750000, type: "Power System", requested: "1 Requested", icon: "fa-solid fa-solar-panel", status: "available" },
-      { id: "item-gen", title: "Generator (3.5KVA Pure Copper)", price: 350000, type: "Power", requested: "1 Requested", icon: "fa-solid fa-bolt", status: "available" },
-      { id: "item-tv", title: "55\" 4K Smart UHD Television", price: 420000, type: "Appliances", requested: "1 Requested", icon: "fa-solid fa-tv", status: "available" },
-      { id: "item-freezer", title: "Deep Chest Freezer (Energy Efficient)", price: 280000, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-snowflake", status: "available" },
+      // --- Funds & Foundation ---
+      { id: "item-car", title: "Family Car Fund 🚗", price: 10000000, type: "Cash Fund", requested: "Contribution", icon: "fa-solid fa-car-side", status: "available" },
+      { id: "item-land", title: "Land & Property Foundation Fund 🏡", price: 3000000, type: "Cash Fund", requested: "Contribution", icon: "fa-solid fa-map-location-dot", status: "available" },
+
+      // --- Power & Energy ---
+      { id: "item-solar", title: "Solar Inverter System", price: 750000, type: "Power System", requested: "1 Requested", icon: "fa-solid fa-solar-panel", status: "available" },
+      { id: "item-gen", title: "Generator", price: 350000, type: "Power", requested: "1 Requested", icon: "fa-solid fa-bolt", status: "available" },
+
+      // --- Large Living & Home Appliances ---
+      { id: "item-tv", title: "55\" 4K Smart Television", price: 600000, type: "Appliances", requested: "1 Requested", icon: "fa-solid fa-tv", status: "available" },
+      { id: "item-sofa", title: "Sofa Couch & Living Room Furniture", price: 400000, type: "Furniture", requested: "1 Requested", icon: "fa-solid fa-couch", status: "available" },
       { id: "item-washer", title: "Century Automatic Washing Machine", price: 290000, type: "Home Care", requested: "1 Requested", icon: "fa-solid fa-soap", status: "available" },
-      { id: "item-keyboard", title: "Music Keyboard & Heavy-Duty Stand", price: 180000, type: "Music & Worship", requested: "1 Requested", icon: "fa-solid fa-music", status: "available" },
+      { id: "item-freezer", title: "Deep Chest Freezer (Energy Efficient)", price: 280000, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-snowflake", status: "available" },
+      { id: "item-fridge", title: "Haier Thermocool 95L Double Door Fridge", price: 270000, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-cube", status: "available" },
+      { id: "item-fan", title: "Binatone 16\" Standing Fan", price: 40000, type: "Home Cooling", requested: "1 Requested", icon: "fa-solid fa-fan", status: "available" },
+
+      // --- Dining, Furniture & Bedroom ---
+      { id: "item-dining-set", title: "Dining Set (Table & Chairs)", price: 120000, type: "Dining", requested: "1 Requested", icon: "fa-solid fa-chair", status: "available" },
+      { id: "item-keyboard", title: "Music Keyboard & Heavy-Duty Stand", price: 400000, type: "Music & Worship", requested: "1 Requested", icon: "fa-solid fa-music", status: "available" },
       { id: "item-bookshelf", title: "Modern 5-Tier Wooden Book Shelf", price: 85000, type: "Furniture", requested: "1 Requested", icon: "fa-solid fa-book-bookmark", status: "available" },
-      { id: "item-airfryer", title: "Panasonic Digital Air Fryer 6L", price: 61500, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-fire-burner", status: "available" },
-      { id: "item-pots", title: "Granite 4 Set Non-Stick Pots", price: 139000, type: "Cookware", requested: "1 Requested", icon: "fa-solid fa-kitchen-set", status: "available" },
-      { id: "item-toaster", title: "2-Slice Stainless Steel Bread Toaster", price: 30000, type: "Breakfast", requested: "1 Requested", icon: "fa-solid fa-bread-slice", status: "available" },
+      { id: "item-wardrobe", title: "Foldable Wardrobe Storage Unit", price: 30000, type: "Closet Setup", requested: "1 Requested", icon: "fa-solid fa-box-archive", status: "available" },
+      { id: "item-pillows", title: "Soft Fiber Bed Pillows (4-in-1 Set)", price: 20000, type: "Bedding", requested: "1 Set Requested", icon: "fa-solid fa-mattress-pillow", status: "available" },
       { id: "item-hangers", title: "Generic Wooden Hanger - Set Of 10", price: 12700, type: "Closet Setup", requested: "3 Requested", icon: "fa-solid fa-shirt", status: "available" },
+
+      // --- Kitchen & Food Prep ---
+      { id: "item-pots", title: "Granite 4 Set Non-Stick Pots", price: 139000, type: "Cookware", requested: "1 Requested", icon: "fa-solid fa-kitchen-set", status: "available" },
+      { id: "item-microwave", title: "Hisense Digital Microwave Oven", price: 82000, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-microchip", status: "available" },
+      { id: "item-juicer", title: "Binatone Juice Extractor", price: 70000, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-wine-glass", status: "available" },
+      { id: "item-pounder", title: "Panasonic Yam Pounder", price: 60000, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-mortar-pestle", status: "available" },
+      { id: "item-airfryer", title: "Panasonic Digital Air Fryer 6.5L", price: 60000, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-fire-burner", status: "available" },
+      { id: "item-dinner-set", title: "16pcs Porcelain Dinner Set", price: 40000, type: "Dining", requested: "1 Set Requested", icon: "fa-solid fa-plate-wheat", status: "available" },
+      { id: "item-blender", title: "Silver Crest Heavy-Duty Blender", price: 30000, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-blender", status: "available" },
+      { id: "item-toaster", title: "2-Slice Stainless Steel Bread Toaster", price: 30000, type: "Breakfast", requested: "1 Requested", icon: "fa-solid fa-bread-slice", status: "available" },
+      { id: "item-wooden-utensils", title: "6pcs Non-Scratch Wooden Utensils Set", price: 30000, type: "Cookware", requested: "1 Set Requested", icon: "fa-solid fa-utensils", status: "available" },
       { id: "item-cutlery", title: "Generic Set of 24pcs Gold Plated Cutlery", price: 21000, type: "Dining", requested: "2 Requested", icon: "fa-solid fa-utensils", status: "available" }
     ];
 
