@@ -46,6 +46,18 @@
       background-size: 24px 24px;
     }
 
+    /* Scroll Reading Indicator Bar */
+    #scrollProgressBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--wine), var(--gold), var(--gold-light));
+      width: 0%;
+      z-index: 1002;
+      transition: width 0.1s ease-out;
+    }
+
     /* ==============================================================
        1. ENVELOPE OPENING OVERLAY
        ============================================================== */
@@ -250,9 +262,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.8rem 2.2rem;
+      padding: 0.75rem 1.4rem;
       z-index: 1000;
       border-bottom: 1px solid rgba(197, 155, 39, 0.25);
+    }
+    @media(min-width: 768px) {
+      nav { padding: 0.8rem 2.2rem; }
     }
     .brand-logo {
       font-family: var(--font-script);
@@ -263,19 +278,25 @@
     }
     .nav-links {
       display: flex;
-      gap: 1.5rem;
+      gap: 0.8rem;
       list-style: none;
       align-items: center;
+    }
+    @media(min-width: 768px) {
+      .nav-links { gap: 1.4rem; }
     }
     .nav-links a {
       text-decoration: none;
       color: var(--text-dark);
       font-family: var(--font-sans);
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       font-weight: 600;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
       transition: color 0.3s;
+    }
+    @media(min-width: 768px) {
+      .nav-links a { font-size: 0.78rem; letter-spacing: 1.5px; }
     }
     .nav-links a:hover { color: var(--gold); }
     .cart-indicator {
@@ -283,13 +304,13 @@
       cursor: pointer;
       background: var(--wine);
       color: #fff;
-      padding: 0.45rem 1rem;
+      padding: 0.4rem 0.85rem;
       border-radius: 20px;
       font-family: var(--font-sans);
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       transition: background 0.2s;
     }
     .cart-indicator:hover { background: var(--wine-dark); }
@@ -299,7 +320,7 @@
       border-radius: 50%;
       padding: 2px 7px;
       font-weight: 700;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
     }
 
     /* ==============================================================
@@ -312,91 +333,117 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 7.5rem 1.5rem 3.5rem;
+      padding: 6.5rem 1rem 3.5rem;
+      position: relative;
+    }
+    @media(min-width: 768px) {
+      .hero { padding: 7.5rem 1.5rem 4rem; }
     }
     .invitation-border-card {
       background: var(--paper);
       border: 2px solid var(--gold);
-      outline: 6px double var(--wine);
-      outline-offset: -12px;
+      outline: 5px double var(--wine);
+      outline-offset: -10px;
       max-width: 820px;
       width: 100%;
-      padding: 4rem 2.2rem;
+      padding: 2.8rem 1.2rem;
       border-radius: 4px;
       box-shadow: 0 18px 45px rgba(99, 18, 38, 0.08), 0 0 0 1px rgba(197, 155, 39, 0.2);
       position: relative;
       background-image: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(253, 250, 243, 0.9));
     }
+    @media(min-width: 768px) {
+      .invitation-border-card {
+        outline: 6px double var(--wine);
+        outline-offset: -12px;
+        padding: 4rem 2.2rem;
+      }
+    }
 
     .card-seal-icon {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       color: var(--gold);
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.6rem;
     }
     .parent-names {
       font-family: var(--font-sans);
-      font-size: 0.85rem;
+      font-size: 0.78rem;
       text-transform: uppercase;
-      letter-spacing: 2.2px;
+      letter-spacing: 1.8px;
       color: var(--text-muted);
-      line-height: 1.85;
-      margin-bottom: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    @media(min-width: 768px) {
+      .parent-names { font-size: 0.85rem; letter-spacing: 2.2px; line-height: 1.85; margin-bottom: 1.2rem; }
     }
     .couple-title {
       font-family: var(--font-script);
-      font-size: clamp(3.2rem, 8vw, 5.2rem);
+      font-size: clamp(2.8rem, 7.5vw, 5.2rem);
       color: var(--wine);
-      margin: 0.4rem 0 0.8rem;
+      margin: 0.3rem 0 0.6rem;
       line-height: 1.1;
       text-shadow: 0 2px 4px rgba(99, 18, 38, 0.08);
     }
     .date-badge {
       display: inline-block;
       font-family: var(--font-sans);
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      letter-spacing: 3px;
+      letter-spacing: 2.5px;
       color: var(--leaf-dark);
       text-transform: uppercase;
-      padding: 0.5rem 1.6rem;
+      padding: 0.45rem 1.3rem;
       border-top: 1px solid var(--gold);
       border-bottom: 1px solid var(--gold);
-      margin: 0.8rem 0;
+      margin: 0.7rem 0;
+    }
+    @media(min-width: 768px) {
+      .date-badge { font-size: 1.05rem; letter-spacing: 3px; padding: 0.5rem 1.6rem; }
     }
     .hashtag-tag {
       font-family: var(--font-sans);
       font-weight: 700;
       letter-spacing: 3px;
       color: var(--gold);
-      font-size: 1.25rem;
-      margin-top: 0.4rem;
+      font-size: 1.2rem;
+      margin-top: 0.3rem;
     }
 
     /* Countdown Grid */
     .countdown {
       display: flex;
       justify-content: center;
-      gap: 1.2rem;
-      margin: 2.4rem 0 1.2rem;
+      gap: 0.6rem;
+      margin: 1.8rem 0 1rem;
       flex-wrap: wrap;
+    }
+    @media(min-width: 768px) {
+      .countdown { gap: 1.2rem; margin: 2.4rem 0 1.2rem; }
     }
     .time-slot {
       background: #fff;
       border: 1px solid var(--gold-light);
-      padding: 0.8rem 1.2rem;
-      min-width: 78px;
+      padding: 0.6rem 0.8rem;
+      min-width: 65px;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     }
+    @media(min-width: 768px) {
+      .time-slot { padding: 0.8rem 1.2rem; min-width: 78px; }
+    }
     .time-num {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--wine);
       font-family: var(--font-sans);
       line-height: 1;
     }
+    @media(min-width: 768px) {
+      .time-num { font-size: 1.8rem; }
+    }
     .time-label {
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       text-transform: uppercase;
       color: var(--text-muted);
       letter-spacing: 1px;
@@ -405,47 +452,126 @@
     }
 
     /* Color Code Swatches */
-    .color-swatch-box { margin: 2rem 0 0.5rem; }
+    .color-swatch-box { margin: 1.6rem 0 0.4rem; }
     .swatches {
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
-      margin-top: 0.6rem;
+      gap: 1.2rem;
+      margin-top: 0.5rem;
     }
     .swatch-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
       font-family: var(--font-sans);
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
     .swatch-circle {
-      width: 44px;
-      height: 44px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       border: 3px solid #fff;
       box-shadow: 0 4px 10px rgba(0,0,0,0.14);
+    }
+    @media(min-width: 768px) {
+      .swatch-circle { width: 44px; height: 44px; }
+    }
+
+    /* Scroll Indicators */
+    .hero-scroll-cue {
+      margin-top: 2rem;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      color: var(--wine);
+      text-decoration: none;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: all 0.3s;
+    }
+    .hero-scroll-cue:hover {
+      opacity: 1;
+      transform: translateY(2px);
+    }
+    .hero-scroll-cue span {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .hero-scroll-cue i {
+      font-size: 1rem;
+      animation: bounceDown 1.8s infinite ease-in-out;
+    }
+    @keyframes bounceDown {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(7px); }
+      60% { transform: translateY(4px); }
+    }
+
+    #floatingScrollPrompt {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--gold);
+      box-shadow: 0 6px 20px rgba(99, 18, 38, 0.12);
+      border-radius: 30px;
+      padding: 0.5rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 900;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--wine);
+      text-decoration: none;
+      transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+    }
+    #floatingScrollPrompt i {
+      animation: bounceDown 1.8s infinite ease-in-out;
+      font-size: 0.78rem;
+    }
+    #floatingScrollPrompt.hidden {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(20px);
+      pointer-events: none;
     }
 
     /* ==============================================================
        4. GENERAL SECTION LAYOUT
        ============================================================== */
     section {
-      padding: 5.5rem 1.5rem;
+      padding: 4.5rem 1.2rem;
       max-width: 1200px;
       margin: 0 auto;
     }
+    @media(min-width: 768px) {
+      section { padding: 5.5rem 1.5rem; }
+    }
     .section-header {
       text-align: center;
-      margin-bottom: 3.2rem;
+      margin-bottom: 2.8rem;
+    }
+    @media(min-width: 768px) {
+      .section-header { margin-bottom: 3.2rem; }
     }
     .section-header h2 {
       font-family: var(--font-serif);
-      font-size: 2.8rem;
+      font-size: clamp(2.1rem, 5vw, 2.8rem);
       color: var(--wine);
       margin-bottom: 0.3rem;
     }
@@ -453,7 +579,7 @@
       color: var(--text-muted);
       font-family: var(--font-sans);
       text-transform: uppercase;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       letter-spacing: 2px;
     }
 
@@ -461,7 +587,7 @@
     .story-card {
       background: var(--paper);
       border-radius: 12px;
-      padding: 3.5rem 2.8rem;
+      padding: 2.4rem 1.5rem;
       border: 1px solid rgba(197, 155, 39, 0.35);
       box-shadow: 0 12px 35px rgba(99, 18, 38, 0.05);
       position: relative;
@@ -469,46 +595,64 @@
       max-width: 880px;
       margin: 0 auto;
     }
+    @media(min-width: 768px) {
+      .story-card { padding: 3.5rem 2.8rem; }
+    }
     .story-card::before {
       content: "“";
       font-family: var(--font-serif);
-      font-size: 6.5rem;
+      font-size: 5rem;
       color: var(--gold-light);
       position: absolute;
-      top: -20px; left: 35px;
+      top: -15px; left: 20px;
       line-height: 1; opacity: 0.4;
     }
+    @media(min-width: 768px) {
+      .story-card::before { font-size: 6.5rem; top: -20px; left: 35px; }
+    }
     .story-body {
-      font-size: 1.3rem;
+      font-size: 1.15rem;
       font-style: italic;
-      line-height: 2.1;
+      line-height: 2;
       color: var(--text-dark);
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.4rem;
+    }
+    @media(min-width: 768px) {
+      .story-body { font-size: 1.3rem; line-height: 2.1; margin-bottom: 1.6rem; }
     }
     .story-scripture {
       font-family: var(--font-sans);
-      font-size: 0.88rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       color: var(--wine);
       text-transform: uppercase;
     }
+    @media(min-width: 768px) {
+      .story-scripture { font-size: 0.88rem; letter-spacing: 2px; }
+    }
 
-    /* Itinerary / Program Grid */
+    /* Program Grid */
     .itinerary-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-      gap: 2.2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+    }
+    @media(min-width: 768px) {
+      .itinerary-grid { grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 2.2rem; }
     }
     .event-card {
       background: var(--paper);
       border-radius: 10px;
-      padding: 2.4rem;
+      padding: 2rem 1.6rem;
       border: 1px solid rgba(197, 155, 39, 0.3);
       transition: transform 0.3s, box-shadow 0.3s;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+    }
+    @media(min-width: 768px) {
+      .event-card { padding: 2.4rem; }
     }
     .event-card:hover {
       transform: translateY(-4px);
@@ -529,9 +673,12 @@
       width: fit-content;
     }
     .event-card h3 {
-      font-size: 1.7rem;
+      font-size: 1.5rem;
       color: var(--leaf-dark);
       margin-bottom: 0.4rem;
+    }
+    @media(min-width: 768px) {
+      .event-card h3 { font-size: 1.7rem; }
     }
     .event-time {
       font-family: var(--font-sans);
@@ -541,7 +688,7 @@
     }
     .event-loc {
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       margin-bottom: 1.4rem;
       line-height: 1.6;
     }
@@ -570,18 +717,18 @@
        ============================================================== */
     .rsvp-container {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 2.5rem;
+      grid-template-columns: 1fr;
+      gap: 2.2rem;
       background: var(--paper);
       border-radius: 12px;
-      padding: 2.8rem;
+      padding: 1.8rem 1.4rem;
       box-shadow: 0 15px 35px rgba(0,0,0,0.04);
       border: 1px solid var(--gold-light);
     }
-    @media(max-width: 860px) {
-      .rsvp-container { grid-template-columns: 1fr; }
+    @media(min-width: 860px) {
+      .rsvp-container { grid-template-columns: 1.1fr 0.9fr; gap: 2.5rem; padding: 2.8rem; }
     }
-    .form-group { margin-bottom: 1.2rem; }
+    .form-group { margin-bottom: 1.1rem; }
     .form-group label {
       display: block;
       font-family: var(--font-sans);
@@ -629,12 +776,15 @@
       background: linear-gradient(145deg, #fefaf0, #ffffff);
       border: 2px dashed var(--gold);
       border-radius: 10px;
-      padding: 2rem 1.6rem;
+      padding: 1.8rem 1.2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       justify-content: center;
+    }
+    @media(min-width: 768px) {
+      .ticket-display { padding: 2rem 1.6rem; }
     }
     .qr-slot {
       margin: 1.2rem 0;
@@ -668,32 +818,38 @@
       background: linear-gradient(135deg, #fff, var(--gold-soft));
       border: 1px solid var(--gold);
       border-radius: 14px;
-      padding: 2.6rem;
-      margin-bottom: 2.8rem;
+      padding: 1.8rem 1.4rem;
+      margin-bottom: 2.5rem;
       box-shadow: 0 10px 25px rgba(0,0,0,0.04);
       display: grid;
-      grid-template-columns: 1.3fr 1fr;
-      gap: 2.2rem;
+      grid-template-columns: 1fr;
+      gap: 1.8rem;
       align-items: center;
     }
-    @media(max-width: 860px) {
-      .registry-hero-banner { grid-template-columns: 1fr; }
+    @media(min-width: 860px) {
+      .registry-hero-banner { grid-template-columns: 1.3fr 1fr; padding: 2.6rem; gap: 2.2rem; margin-bottom: 2.8rem; }
     }
     .registry-text p {
-      font-size: 1.15rem;
-      line-height: 1.85;
+      font-size: 1.05rem;
+      line-height: 1.8;
       color: var(--text-dark);
       margin-bottom: 1rem;
+    }
+    @media(min-width: 768px) {
+      .registry-text p { font-size: 1.15rem; line-height: 1.85; }
     }
     .registry-bank-card {
       background: #fff;
       border-left: 5px solid var(--wine);
-      padding: 1.6rem;
+      padding: 1.4rem;
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
       border-top: 1px solid #eee;
       border-right: 1px solid #eee;
       border-bottom: 1px solid #eee;
+    }
+    @media(min-width: 768px) {
+      .registry-bank-card { padding: 1.6rem; }
     }
     .bank-badge {
       font-family: var(--font-sans);
@@ -705,11 +861,14 @@
     }
     .acc-number {
       font-family: var(--font-sans);
-      font-size: 1.55rem;
+      font-size: 1.4rem;
       font-weight: 700;
       color: var(--text-dark);
       letter-spacing: 2px;
       margin: 0.4rem 0;
+    }
+    @media(min-width: 768px) {
+      .acc-number { font-size: 1.55rem; }
     }
     .btn-copy-acc {
       background: var(--gold-soft);
@@ -734,9 +893,12 @@
     /* Wishlist Grid */
     .joy-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1.8rem;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.4rem;
       margin-bottom: 3.5rem;
+    }
+    @media(min-width: 768px) {
+      .joy-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.8rem; }
     }
     .joy-card {
       background: #fff;
@@ -754,7 +916,7 @@
     }
     .joy-image-container {
       width: 100%;
-      height: 190px;
+      height: 180px;
       background: #fbfbfc;
       display: flex;
       align-items: center;
@@ -763,8 +925,11 @@
       padding: 1.2rem;
       border-bottom: 1px solid #f2f2f2;
     }
+    @media(min-width: 768px) {
+      .joy-image-container { height: 190px; }
+    }
     .joy-image-container .joy-icon-fallback {
-      font-size: 3.8rem;
+      font-size: 3.6rem;
       color: #d1b87a;
     }
     .joy-badge-top {
@@ -780,16 +945,19 @@
       border: 1px solid #e0e0e0;
     }
     .joy-details {
-      padding: 1.3rem 1.2rem;
+      padding: 1.2rem 1rem;
       display: flex;
       flex-direction: column;
       flex: 1;
       justify-content: space-between;
       text-align: center;
     }
+    @media(min-width: 768px) {
+      .joy-details { padding: 1.3rem 1.2rem; }
+    }
     .joy-title {
       font-family: var(--font-sans);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 600;
       color: #2b2b2b;
       margin-bottom: 0.35rem;
@@ -801,7 +969,7 @@
     }
     .joy-price {
       font-family: var(--font-sans);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 500;
       color: #666;
       margin-bottom: 0.4rem;
@@ -837,7 +1005,7 @@
       padding-top: 3rem;
     }
     .already-gifted-header {
-      font-size: 1.8rem;
+      font-size: 1.7rem;
       font-family: var(--font-sans);
       font-weight: 700;
       color: #333;
@@ -898,8 +1066,11 @@
       z-index: 1600;
       display: flex;
       flex-direction: column;
-      padding: 2rem;
+      padding: 1.8rem 1.4rem;
       transition: right 0.3s ease-in-out;
+    }
+    @media(min-width: 768px) {
+      .cart-drawer { padding: 2rem; }
     }
     .cart-drawer.active { right: 0; }
     .cart-header {
@@ -942,9 +1113,8 @@
     .btn-confirm-transfer:hover { background: #1eb855; }
 
     /* ==============================================================
-       8. LUXURY NOTIFICATION DIALOGS (REPLACES BROWSER ALERTS)
+       8. LUXURY NOTIFICATION DIALOGS
        ============================================================== */
-    /* Toast Notification (Bottom Right) */
     #luxuryToast {
       position: fixed;
       bottom: 28px;
@@ -978,7 +1148,6 @@
       color: var(--gold);
     }
 
-    /* Modal Dialog (Center Screen) */
     #luxuryModalOverlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -1003,7 +1172,7 @@
       border-radius: 12px;
       max-width: 480px;
       width: 100%;
-      padding: 2.5rem 2rem;
+      padding: 2.5rem 1.8rem;
       text-align: center;
       position: relative;
       box-shadow: 0 25px 60px rgba(0,0,0,0.3);
@@ -1069,6 +1238,9 @@
 </head>
 <body>
 
+  <!-- Scroll Progress Indicator -->
+  <div id="scrollProgressBar"></div>
+
   <!-- ==============================================================
        1. ENVELOPE OPENING OVERLAY (WAX SEAL EXPERIENCE)
        ============================================================== -->
@@ -1076,7 +1248,7 @@
     <div class="envelope-stage" id="envelopeStage">
       <div class="envelope-box">
         <div class="inner-letter-preview">
-          <h4>Aphewe & Abayomi</h4>
+          <h4>Apheweoghene & Abayomi</h4>
           <p>Genesis 2:24 &bull; December 5, 2026</p>
           <div style="font-size: 0.75rem; color: #777; margin-top: 15px; font-style: italic;">
             "Above all, love each other deeply..."
@@ -1122,7 +1294,7 @@
   <!-- ==============================================================
        3. HERO / INVITATION CARD
        ============================================================== -->
-  <section class="hero">
+  <section class="hero" id="heroSection">
     <div class="invitation-border-card">
       <div class="card-seal-icon"><i class="fa-solid fa-ring"></i></div>
       
@@ -1169,6 +1341,12 @@
           </div>
         </div>
       </div>
+
+      <!-- Bouncing Scroll Cue -->
+      <a href="#story" class="hero-scroll-cue" title="Scroll down to view more">
+        <span>Scroll Down to Explore</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </a>
     </div>
   </section>
 
@@ -1250,19 +1428,19 @@
       <div>
         <form id="rsvpForm" onsubmit="handleRsvpSubmit(event)">
           <div class="form-group">
-            <label>Full Name</label>
+            <label for="guestName">Full Name</label>
             <input type="text" id="guestName" placeholder="e.g. Dr. & Mrs. Adeleke" required>
           </div>
           <div class="form-group">
-            <label>Email Address (For Passes & Reminders)</label>
+            <label for="guestEmail">Email Address (For Passes & Reminders)</label>
             <input type="email" id="guestEmail" placeholder="you@example.com" required>
           </div>
           <div class="form-group">
-            <label>Phone Number</label>
+            <label for="guestPhone">Phone Number</label>
             <input type="tel" id="guestPhone" placeholder="08012345678" required>
           </div>
           <div class="form-group">
-            <label>Will you be attending?</label>
+            <label for="guestAttending">Will you be attending?</label>
             <select id="guestAttending" required>
               <option value="Joyfully Attending Both">Joyfully Attending Both Ceremonies</option>
               <option value="Attending Traditional Only">Attending Traditional Wedding (7:30 AM)</option>
@@ -1271,13 +1449,13 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Number of Guests</label>
+            <label for="guestCount">Number of Guests</label>
             <input type="number" id="guestCount" min="1" max="4" value="1">
           </div>
           <button type="submit" id="rsvpSubmitBtn" class="btn-primary">Confirm & Generate Entry Pass</button>
         </form>
 
-        <!-- Direct RSVP Contacts with Phone & WhatsApp Icons -->
+        <!-- Direct RSVP Contacts -->
         <div style="margin-top: 1.5rem; font-family: var(--font-sans); font-size: 0.85rem; color: var(--text-muted); line-height: 1.8;">
           <strong>Direct RSVP Inquiries:</strong><br>
           <span>Esther: </span>
@@ -1362,7 +1540,7 @@
     <div class="joy-grid" id="availableItemsGrid"></div>
 
     <!-- WithJoy "Already Gifted" Section -->
-    <div class="already-gifted-section" id="alreadyGiftedContainer">
+    <div class="already-gifted-section" id="alreadyGiftedContainer" style="display: none;">
       <h3 class="already-gifted-header">Already Gifted</h3>
       <div class="joy-grid" id="alreadyGiftedGrid"></div>
     </div>
@@ -1399,26 +1577,32 @@
         <input type="text" id="sponsorNameInput" placeholder="Your Name (so we can attach your name to it)" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-family: var(--font-sans); font-size: 0.85rem;">
       </div>
 
-      <!-- Direct WhatsApp redirect to Abayomi (08106179714) -->
+      <!-- Direct WhatsApp redirect to Aphewe (08166457692) -->
       <button class="btn-confirm-transfer" onclick="confirmTransferAndNotify()">
         <i class="fa-brands fa-whatsapp"></i> Confirm Transfer via WhatsApp
       </button>
       <p style="font-size: 0.72rem; color: var(--text-muted); text-align: center; margin-top: 0.5rem; font-family: var(--font-sans);">
-        Transfers are verified directly via WhatsApp with Abayomi.
+        Transfers are verified directly via WhatsApp with Apheweoghene.
       </p>
     </div>
   </div>
 
   <!-- ==============================================================
-       9. REUSABLE LUXURY NOTIFICATION DIALOGS
+       9. FLOATING BOTTOM NAVIGATION CUE
        ============================================================== -->
-  <!-- Toast Notification Box -->
+  <a href="#story" id="floatingScrollPrompt" title="Scroll down to next section">
+    <span id="floatingScrollText">Explore Our Story</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </a>
+
+  <!-- ==============================================================
+       10. REUSABLE LUXURY NOTIFICATION DIALOGS
+       ============================================================== -->
   <div id="luxuryToast">
     <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-circle-check"></i></div>
     <div id="toastMessage">Notification message here</div>
   </div>
 
-  <!-- Centered Modal Card -->
   <div id="luxuryModalOverlay">
     <div class="luxury-modal-card">
       <div class="modal-monogram">A&A</div>
@@ -1437,12 +1621,63 @@
     </p>
   </footer>
 
+  <!-- ==============================================================
+       JAVASCRIPT ENGINE (CLEAN & ORDERED)
+       ============================================================== -->
   <script>
-    // ==============================================================
-    // LUXURY NOTIFICATION HELPERS (REPLACES BROWSER ALERTS)
-    // ==============================================================
+    // --------------------------------------------------------------
+    // 1. GLOBAL STATE & CONFIGURATION
+    // --------------------------------------------------------------
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydZ1h9IPH4BQdHMGhWJB8kbRJAapsXW9IF3ekq3I2BTJ6eHIJh7UiLzPMmBhyJCMdIaw/exec";
+    const WEDDING_DATE = new Date('2026-12-05T07:30:00+01:00').getTime();
+
+    let cart = [];
     let toastTimeout = null;
 
+    // Default Registry Item Master List
+    const registryItems = [
+      { id: "item-car", title: "Family Car Fund 🚗", price: 9000000, type: "Cash Fund", requested: "Contribution", icon: "fa-solid fa-car-side", status: "available" },
+      { id: "item-land", title: "Land & Property Foundation Fund 🏡", price: 1500000, type: "Cash Fund", requested: "Contribution", icon: "fa-solid fa-map-location-dot", status: "available" },
+      { id: "item-solar", title: "Solar and Inverter System (Pure Sine)", price: 750000, type: "Power System", requested: "1 Requested", icon: "fa-solid fa-solar-panel", status: "available" },
+      { id: "item-gen", title: "Generator (3.5KVA Pure Copper)", price: 350000, type: "Power", requested: "1 Requested", icon: "fa-solid fa-bolt", status: "available" },
+      { id: "item-tv", title: "55\" 4K Smart UHD Television", price: 420000, type: "Appliances", requested: "1 Requested", icon: "fa-solid fa-tv", status: "available" },
+      { id: "item-freezer", title: "Deep Chest Freezer (Energy Efficient)", price: 280000, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-snowflake", status: "available" },
+      { id: "item-washer", title: "Century Automatic Washing Machine", price: 290000, type: "Home Care", requested: "1 Requested", icon: "fa-solid fa-soap", status: "available" },
+      { id: "item-keyboard", title: "Music Keyboard & Heavy-Duty Stand", price: 180000, type: "Music & Worship", requested: "1 Requested", icon: "fa-solid fa-music", status: "available" },
+      { id: "item-bookshelf", title: "Modern 5-Tier Wooden Book Shelf", price: 85000, type: "Furniture", requested: "1 Requested", icon: "fa-solid fa-book-bookmark", status: "available" },
+      { id: "item-airfryer", title: "Panasonic Digital Air Fryer 6L", price: 61500, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-fire-burner", status: "available" },
+      { id: "item-pots", title: "Granite 4 Set Non-Stick Pots", price: 139000, type: "Cookware", requested: "1 Requested", icon: "fa-solid fa-kitchen-set", status: "available" },
+      { id: "item-toaster", title: "2-Slice Stainless Steel Bread Toaster", price: 30000, type: "Breakfast", requested: "1 Requested", icon: "fa-solid fa-bread-slice", status: "available" },
+      { id: "item-hangers", title: "Generic Wooden Hanger - Set Of 10", price: 12700, type: "Closet Setup", requested: "3 Requested", icon: "fa-solid fa-shirt", status: "available" },
+      { id: "item-cutlery", title: "Generic Set of 24pcs Gold Plated Cutlery", price: 21000, type: "Dining", requested: "2 Requested", icon: "fa-solid fa-utensils", status: "available" }
+    ];
+
+    // --------------------------------------------------------------
+    // 2. ENVELOPE OPENING MECHANIC
+    // --------------------------------------------------------------
+    function openEnvelope() {
+      const stage = document.getElementById("envelopeStage");
+      const overlay = document.getElementById("envelopeOverlay");
+
+      stage.classList.add("opening");
+
+      setTimeout(() => {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#c59b27', '#e5c365', '#631226', '#ffffff']
+        });
+      }, 350);
+
+      setTimeout(() => {
+        overlay.classList.add("opened");
+      }, 1000);
+    }
+
+    // --------------------------------------------------------------
+    // 3. DIALOGS & NOTIFICATION HELPERS
+    // --------------------------------------------------------------
     function showToast(message, iconClass = 'fa-circle-check', isError = false) {
       const toast = document.getElementById('luxuryToast');
       const icon = document.getElementById('toastIcon');
@@ -1470,37 +1705,17 @@
       document.getElementById('luxuryModalOverlay').classList.remove('active');
     }
 
-    // ==============================================================
-    // ENVELOPE OPENING MECHANISM
-    // ==============================================================
-    function openEnvelope() {
-      const stage = document.getElementById("envelopeStage");
-      const overlay = document.getElementById("envelopeOverlay");
-
-      stage.classList.add("opening");
-
-      setTimeout(() => {
-        confetti({
-          particleCount: 120,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: ['#c59b27', '#e5c365', '#631226', '#ffffff']
-        });
-      }, 350);
-
-      setTimeout(() => {
-        overlay.classList.add("opened");
-      }, 1000);
+    function copyAccountNumber() {
+      navigator.clipboard.writeText("0158038853");
+      showToast("Union Bank of Nigeria account number (0158038853) copied to clipboard!");
     }
 
-    // PASTE YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL HERE:
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydZ1h9IPH4BQdHMGhWJB8kbRJAapsXW9IF3ekq3I2BTJ6eHIJh7UiLzPMmBhyJCMdIaw/exec";
-
-    // Real-Time Countdown to Dec 5, 2026 (7:30 AM WAT)
-    const weddingDate = new Date('2026-12-05T07:30:00+01:00').getTime();
+    // --------------------------------------------------------------
+    // 4. COUNTDOWN ENGINE
+    // --------------------------------------------------------------
     function updateCountdown() {
       const now = new Date().getTime();
-      const dist = weddingDate - now;
+      const dist = WEDDING_DATE - now;
 
       if (dist > 0) {
         document.getElementById('cdDays').innerText = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
@@ -1512,13 +1727,51 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Copy Account Number with Luxury Toast
-    function copyAccountNumber() {
-      navigator.clipboard.writeText("0158038853");
-      showToast("Union Bank of Nigeria account number (0158038853) copied to clipboard!");
-    }
+    // --------------------------------------------------------------
+    // 5. SCROLL PROGRESS & SECTION TRACKER
+    // --------------------------------------------------------------
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
 
-    // RSVP Submit Handler
+      const progressBar = document.getElementById("scrollProgressBar");
+      if (progressBar) progressBar.style.width = scrolled + "%";
+
+      const floatingPrompt = document.getElementById("floatingScrollPrompt");
+      const floatingText = document.getElementById("floatingScrollText");
+
+      if (floatingPrompt && floatingText) {
+        const storyTop = document.getElementById("story").offsetTop - 120;
+        const ceremonyTop = document.getElementById("ceremony").offsetTop - 120;
+        const rsvpTop = document.getElementById("rsvp").offsetTop - 120;
+        const registryTop = document.getElementById("registry").offsetTop - 120;
+
+        if (winScroll < storyTop) {
+          floatingPrompt.classList.remove("hidden");
+          floatingPrompt.href = "#story";
+          floatingText.innerText = "Explore Our Story";
+        } else if (winScroll >= storyTop && winScroll < ceremonyTop) {
+          floatingPrompt.classList.remove("hidden");
+          floatingPrompt.href = "#ceremony";
+          floatingText.innerText = "View Event Schedule";
+        } else if (winScroll >= ceremonyTop && winScroll < rsvpTop) {
+          floatingPrompt.classList.remove("hidden");
+          floatingPrompt.href = "#rsvp";
+          floatingText.innerText = "Confirm Attendance";
+        } else if (winScroll >= rsvpTop && winScroll < registryTop) {
+          floatingPrompt.classList.remove("hidden");
+          floatingPrompt.href = "#registry";
+          floatingText.innerText = "View Wishlist Registry";
+        } else {
+          floatingPrompt.classList.add("hidden");
+        }
+      }
+    });
+
+    // --------------------------------------------------------------
+    // 6. RSVP SUBMISSION DISPATCHER
+    // --------------------------------------------------------------
     async function handleRsvpSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById("rsvpSubmitBtn");
@@ -1535,7 +1788,7 @@
       const passId = "AAG-" + Math.floor(100000 + Math.random() * 900000);
       const qrData = encodeURIComponent(`AAG224|${passId}|${name}|Guests:${count}`);
 
-      // 1. Immediately update on-screen ticket
+      // 1. Immediate On-screen Pass Update
       document.getElementById('qrImage').src = isDecline 
         ? "https://quickchart.io/qr?size=180&text=DECLINED"
         : `https://quickchart.io/qr?size=220&text=${qrData}`;
@@ -1544,7 +1797,7 @@
         ? "Status: Regretfully Declined"
         : `Pass ID: #${passId} (${count} Guest${count > 1 ? 's' : ''})`;
 
-      // 2. Post to Google Sheet & trigger automated emails
+      // 2. Dispatch to Google Apps Script
       try {
         await fetch(SCRIPT_URL, {
           method: "POST",
@@ -1574,27 +1827,24 @@
       }
     }
 
-    // WithJoy-Style Registry Data
-    const registryItems = [
-      { id: "item-car", title: "Family Car Fund 🚗", price: 9000000, type: "Cash Fund", requested: "Contribution", icon: "fa-solid fa-car-side", status: "available" },
-      { id: "item-land", title: "Land & Property Foundation Fund 🏡", price: 1500000, type: "Cash Fund", requested: "Contribution", icon: "fa-solid fa-map-location-dot", status: "available" },
-      { id: "item-solar", title: "Solar and Inverter System (Pure Sine)", price: 750000, type: "Power System", requested: "1 Requested", icon: "fa-solid fa-solar-panel", status: "available" },
-      { id: "item-gen", title: "Generator (3.5KVA Pure Copper)", price: 350000, type: "Power", requested: "1 Requested", icon: "fa-solid fa-bolt", status: "available" },
-      { id: "item-tv", title: "55\" 4K Smart UHD Television", price: 420000, type: "Appliances", requested: "1 Requested", icon: "fa-solid fa-tv", status: "available" },
-      { id: "item-freezer", title: "Deep Chest Freezer (Energy Efficient)", price: 280000, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-snowflake", status: "available" },
-      { id: "item-washer", title: "Century Automatic Washing Machine", price: 290000, type: "Home Care", requested: "1 Requested", icon: "fa-solid fa-soap", status: "reserved" },
-      { id: "item-keyboard", title: "Music Keyboard & Heavy-Duty Stand", price: 180000, type: "Music & Worship", requested: "1 Requested", icon: "fa-solid fa-music", status: "available" },
-      { id: "item-bookshelf", title: "Modern 5-Tier Wooden Book Shelf", price: 85000, type: "Furniture", requested: "1 Requested", icon: "fa-solid fa-book-bookmark", status: "available" },
-      { id: "item-airfryer", title: "Panasonic Digital Air Fryer 6L", price: 61500, type: "Kitchen", requested: "1 Requested", icon: "fa-solid fa-fire-burner", status: "bought" },
-      { id: "item-pots", title: "Granite 4 Set Non-Stick Pots", price: 139000, type: "Cookware", requested: "1 Requested", icon: "fa-solid fa-kitchen-set", status: "available" },
-      { id: "item-toaster", title: "2-Slice Stainless Steel Bread Toaster", price: 30000, type: "Breakfast", requested: "1 Requested", icon: "fa-solid fa-bread-slice", status: "available" },
-      { id: "item-hangers", title: "Generic Wooden Hanger - Set Of 10", price: 12700, type: "Closet Setup", requested: "3 Requested", icon: "fa-solid fa-shirt", status: "available" },
-      { id: "item-cutlery", title: "Generic Set of 24pcs Gold Plated Cutlery", price: 21000, type: "Dining", requested: "2 Requested", icon: "fa-solid fa-utensils", status: "available" }
-    ];
-
-    function getPersistedStatus(id, defaultStatus) {
-      const saved = localStorage.getItem("status_" + id);
-      return saved ? saved : defaultStatus;
+    // --------------------------------------------------------------
+    // 7. REGISTRY ENGINE & LIVE SHEET SYNC
+    // --------------------------------------------------------------
+    async function syncLiveRegistryFromBackend() {
+      try {
+        const res = await fetch(SCRIPT_URL);
+        const data = await res.json();
+        if (data.status === "success" && data.items) {
+          registryItems.forEach(item => {
+            if (data.items[item.id]) {
+              item.status = data.items[item.id].status || "available";
+            }
+          });
+          renderRegistry();
+        }
+      } catch (err) {
+        renderRegistry(); // Fallback to defaults
+      }
     }
 
     function renderRegistry() {
@@ -1605,8 +1855,7 @@
       let giftedCount = 0;
 
       registryItems.forEach(item => {
-        const currentStatus = getPersistedStatus(item.id, item.status);
-        if (currentStatus === "available") {
+        if (item.status === "available") {
           const card = document.createElement("div");
           card.className = "joy-card";
           card.id = item.id;
@@ -1630,9 +1879,9 @@
           const card = document.createElement("div");
           card.className = "joy-card is-gifted";
           card.id = item.id;
-          const statusClass = currentStatus === "reserved" ? "reserved" : "bought";
-          const statusLabel = currentStatus === "reserved" ? "Reserved" : "Bought";
-          const statusIcon = currentStatus === "reserved" ? "fa-regular fa-bookmark" : "fa-solid fa-check";
+          const statusClass = item.status === "reserved" ? "reserved" : "bought";
+          const statusLabel = item.status === "reserved" ? "Reserved" : "Bought";
+          const statusIcon = item.status === "reserved" ? "fa-regular fa-bookmark" : "fa-solid fa-check";
           card.innerHTML = `
             <div class="joy-image-container">
               <span class="joy-badge-top">${item.type}</span>
@@ -1649,11 +1898,13 @@
           giftedGrid.appendChild(card);
         }
       });
+
       document.getElementById("alreadyGiftedContainer").style.display = giftedCount > 0 ? "block" : "none";
     }
 
-    // Cart Drawer Mechanics
-    let cart = [];
+    // --------------------------------------------------------------
+    // 8. CART DRAWER & WHATSAPP FORWARDING
+    // --------------------------------------------------------------
     function toggleCartDrawer() {
       document.getElementById('cartDrawer').classList.toggle('active');
       document.getElementById('cartOverlay').classList.toggle('active');
@@ -1706,7 +1957,6 @@
       document.getElementById('cartTotalPrice').innerText = 'NGN ' + total.toLocaleString() + '.00';
     }
 
-    // Confirm Bank Transfer via WhatsApp to Abayomi (08106179714)
     function confirmTransferAndNotify() {
       if (cart.length === 0) {
         showToast("Please select at least one gift item.", "fa-circle-exclamation", true);
@@ -1716,27 +1966,36 @@
       const totalAmount = cart.reduce((acc, item) => acc + item.price, 0);
       const itemNames = cart.map(i => i.title).join(', ');
 
-      cart.forEach(item => {
-        localStorage.setItem("status_" + item.id, "bought");
-      });
-
       const msg = encodeURIComponent(
-        `Hello Abayomi, I have sent a bank transfer of NGN ${totalAmount.toLocaleString()}.00 for the following registry item(s):\n\n` +
+        `Hello Apheweoghene, I have sent a bank transfer of NGN ${totalAmount.toLocaleString()}.00 for the following registry item(s):\n\n` +
         `📦 *Item(s):* ${itemNames}\n` +
         `👤 *Sponsor Name:* ${sponsor}\n\n` +
-        `Please attach my name to it and mark as bought! Congratulations on #AAG224! 🤍`
+        `Please verify and mark as bought once confirmed! Congratulations on #AAG224! 🤍`
       );
 
+      // Reset cart locally without prematurely claiming the item on the web
       cart = [];
       updateCartDisplay();
       toggleCartDrawer();
-      renderRegistry();
 
       confetti({ particleCount: 150, spread: 80 });
-      window.open(`https://wa.me/2348106179714?text=${msg}`, '_blank');
+
+      showModal(
+        "Transfer Details Forwarded! 🥂",
+        `Thank you, <strong>${sponsor}</strong>!<br><br>` +
+        `Your selection for <strong>${itemNames}</strong> has been prepared for WhatsApp.<br><br>` +
+        `<em>Once your transfer is received and verified, the item will be officially marked as gifted on the registry.</em>`
+      );
+
+      // WhatsApp Forwarding to Apheweoghene (08166457692)
+      window.open(`https://wa.me/2348166457692?text=${msg}`, '_blank');
     }
 
+    // --------------------------------------------------------------
+    // 9. INITIAL LOAD
+    // --------------------------------------------------------------
     renderRegistry();
+    syncLiveRegistryFromBackend();
   </script>
 </body>
 </html>
