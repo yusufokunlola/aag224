@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard &bull; Registry Management | #AAG224</title>
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --wine: #631226;
+      --wine-dark: #430c19;
+      --gold: #c59b27;
+      --gold-light: #e5c365;
+      --gold-soft: #fcf8ee;
+      --green: #2c5e3b;
+      --green-light: #e8f5e9;
+      --red: #b3261e;
+      --red-light: #ffebee;
+      --blue: #0277bd;
+      --blue-light: #e1f5fe;
+      --bg: #f7f5f0;
+      --card-bg: #ffffff;
+      --text-dark: #2a2223;
+      --text-muted: #736c6d;
+      --font-sans: 'Montserrat', sans-serif;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-script: 'Alex Brush', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      font-family: var(--font-sans);
+      color: var(--text-dark);
+      padding: 1.2rem 1rem 5rem;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ==============================================================
+       PIN AUTH SCREEN
+       ============================================================== */
+    #authOverlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: radial-gradient(circle at center, #2e0912 0%, #150307 100%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem;
+    }
+    .auth-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 2.5rem 2rem;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      border: 2px solid var(--gold);
+      position: relative;
+    }
+    .auth-monogram {
+      font-family: var(--font-script);
+      font-size: 2.8rem;
+      color: var(--wine);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .auth-card h2 {
+      color: var(--wine);
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .auth-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .auth-card input {
+      width: 100%;
+      padding: 0.85rem;
+      font-size: 1.6rem;
+      text-align: center;
+      letter-spacing: 8px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      margin: 1.4rem 0 0.8rem;
+      outline: none;
+      font-family: monospace;
+      transition: border-color 0.2s;
+    }
+    .auth-card input:focus { border-color: var(--wine); }
+    .remember-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+    .btn-auth {
+      background: var(--wine);
+      color: #fff;
+      border: none;
+      padding: 0.85rem;
+      width: 100%;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-auth:hover { background: var(--wine-dark); }
+
+    /* ==============================================================
+       HEADER & METRICS
+       ============================================================== */
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e2ddd3;
+    }
+    .brand-title {
+      font-size: 1.35rem;
+      color: var(--wine);
+      font-weight: 700;
+    }
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+    .btn-refresh {
+      background: #fff;
+      border: 1px solid var(--gold);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--wine);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      transition: all 0.2s;
+    }
+    .btn-refresh:hover {
+      background: var(--gold-soft);
+      border-color: var(--wine);
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 1.8rem;
+    }
+    .kpi-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      border: 1px solid #e5dfd3;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+    .kpi-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+    .kpi-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--wine);
+      margin-top: 4px;
+    }
+    .kpi-value.money {
+      color: var(--green);
+      font-size: 1.25rem;
+    }
+
+    /* Filters & Search */
+    .controls-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 0.65rem 1rem 0.65rem 2.2rem;
+      border: 1px solid #dcd5c8;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      background: #fff;
+    }
+    .search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      font-size: 0.85rem;
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      background: #eee9dd;
+      padding: 4px;
+      border-radius: 8px;
+    }
+    .tab-btn {
+      border: none;
+      background: transparent;
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: #fff;
+      color: var(--wine);
+      font-weight: 700;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+    }
+
+    /* ==============================================================
+       ITEMS LIST
+       ============================================================== */
+    .item-card {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e3ded5;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+      transition: transform 0.2s;
+    }
+    .item-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    }
+    .item-main {
+      flex: 1;
+      min-width: 220px;
+    }
+    .item-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .item-price {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-top: 8px;
+    }
+    .badge-status.available { background: var(--green-light); color: var(--green); }
+    .badge-status.bought { background: var(--red-light); color: var(--red); }
+    .badge-status.reserved { background: var(--blue-light); color: var(--blue); }
+
+    .item-sponsor-meta {
+      font-size: 0.78rem;
+      color: var(--wine);
+      font-weight: 600;
+      margin-top: 5px;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .btn-act {
+      border: 1px solid transparent;
+      padding: 0.55rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-bought { background: var(--red-light); color: var(--red); border-color: #ffcdd2; }
+    .btn-bought:hover, .btn-bought.active { background: var(--red); color: #fff; }
+    .btn-reserved { background: var(--blue-light); color: var(--blue); border-color: #bbdefb; }
+    .btn-reserved:hover, .btn-reserved.active { background: var(--blue); color: #fff; }
+    .btn-avail { background: #f5f5f5; color: #555; border-color: #ddd; }
+    .btn-avail:hover, .btn-avail.active { background: #333; color: #fff; }
+
+    /* ==============================================================
+       CUSTOM SPONSOR MODAL DIALOG
+       ============================================================== */
+    #sponsorModalOverlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+    #sponsorModalOverlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .sponsor-modal-card {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 420px;
+      width: 100%;
+      padding: 2rem 1.8rem;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+      border: 1px solid var(--gold);
+    }
+    .sponsor-modal-card h3 {
+      font-size: 1.2rem;
+      color: var(--wine);
+      margin-bottom: 6px;
+    }
+    .sponsor-modal-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+    .sponsor-modal-card input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      outline: none;
+      margin-bottom: 1.4rem;
+    }
+    .sponsor-modal-card input:focus { border-color: var(--wine); }
+    .modal-actions-row {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    .btn-modal-cancel {
+      background: #eee;
+      border: none;
+      padding: 0.65rem 1.2rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-modal-save {
+      background: var(--wine);
+      color: #fff;
+      border: none;
+      padding: 0.65rem 1.4rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ==============================================================
+       LUXURY TOAST
+       ============================================================== */
+    #adminToast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 10001;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border-left: 5px solid var(--wine);
+      padding: 12px 18px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      font-size: 0.85rem;
+      font-weight: 600;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    #adminToast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==============================================================
+       PIN AUTH SCREEN
+       ============================================================== -->
+  <div id="authOverlay">
+    <div class="auth-card">
+      <div class="auth-monogram">A&A</div>
+      <h2>Registry Admin</h2>
+      <p>Enter 4-Digit Security PIN to Access</p>
+      
+      <input type="password" id="pinInput" maxlength="4" placeholder="••••" autofocus onkeyup="handlePinKeyUp(event)">
+      
+      <div class="remember-row">
+        <input type="checkbox" id="rememberPinCheckbox" checked>
+        <label for="rememberPinCheckbox">Remember access on this phone</label>
+      </div>
+
+      <button class="btn-auth" onclick="verifyPin()">Unlock Dashboard</button>
+    </div>
+  </div>
+
+  <!-- ==============================================================
+       MAIN DASHBOARD
+       ============================================================== -->
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <div class="brand-title">Registry Admin Portal</div>
+        <div class="brand-sub">Apheweoghene & Abayomi (#AAG224)</div>
+      </div>
+      <button class="btn-refresh" onclick="fetchLiveItems()">
+        <i class="fa-solid fa-rotate-right" id="refreshIcon"></i> Refresh
+      </button>
+    </div>
+
+    <!-- KPI Metric Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Wishlist Items</div>
+        <div class="kpi-value" id="kpiTotal">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Available</div>
+        <div class="kpi-value" id="kpiAvailable" style="color: var(--green);">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Gifted / Reserved</div>
+        <div class="kpi-value" id="kpiGifted" style="color: var(--wine);">0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Capital Raised</div>
+        <div class="kpi-value money" id="kpiCapital">₦0</div>
+      </div>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="controls-row">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Search registry item..." oninput="handleSearchFilter()">
+      </div>
+
+      <div class="filter-tabs">
+        <button class="tab-btn active" onclick="setFilter('all', this)">All</button>
+        <button class="tab-btn" onclick="setFilter('available', this)">Available</button>
+        <button class="tab-btn" onclick="setFilter('bought', this)">Bought</button>
+        <button class="tab-btn" onclick="setFilter('reserved', this)">Reserved</button>
+      </div>
+    </div>
+
+    <!-- List of Wishlist Items -->
+    <div id="itemsContainer">
+      <p style="text-align: center; color: #888; padding: 2rem;">Loading items...</p>
+    </div>
+  </div>
+
+  <!-- ==============================================================
+       SPONSOR CAPTURE MODAL
+       ============================================================== -->
+  <div id="sponsorModalOverlay">
+    <div class="sponsor-modal-card">
+      <h3 id="modalItemTitle">Assign Sponsor</h3>
+      <p id="modalActionText">Attach sponsor's name for your records:</p>
+      
+      <input type="text" id="modalSponsorInput" placeholder="e.g. Uncle Segun, Dr. Adeleke">
+
+      <div class="modal-actions-row">
+        <button class="btn-modal-cancel" onclick="closeSponsorModal()">Cancel</button>
+        <button class="btn-modal-save" onclick="submitSponsorModal()">Confirm & Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="adminToast">
+    <i class="fa-solid fa-circle-check" id="toastIcon" style="color: var(--wine);"></i>
+    <span id="toastMsg">Updated successfully</span>
+  </div>
+
+  <!-- ==============================================================
+       DASHBOARD SCRIPT ENGINE
+       ============================================================== -->
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydZ1h9IPH4BQdHMGhWJB8kbRJAapsXW9IF3ekq3I2BTJ6eHIJh7UiLzPMmBhyJCMdIaw/exec";
+    
+    let CURRENT_PIN = "";
+    let activeFilter = "all";
+    let activeSearchQuery = "";
+    let liveStates = {};
+
+    // Pending state for modal
+    let pendingItemId = null;
+    let pendingStatus = null;
+
+    // Master Registry Items List
+    const REGISTRY_ITEMS = [
+      { id: "item-car", title: "Family Car Fund 🚗", price: 9000000, category: "Cash Fund" },
+      { id: "item-land", title: "Land & Property Foundation Fund 🏡", price: 1500000, category: "Cash Fund" },
+      { id: "item-solar", title: "Solar and Inverter System (Pure Sine)", price: 750000, category: "Power" },
+      { id: "item-gen", title: "Generator (3.5KVA Pure Copper)", price: 350000, category: "Power" },
+      { id: "item-tv", title: "55\" 4K Smart UHD Television", price: 420000, category: "Appliances" },
+      { id: "item-freezer", title: "Deep Chest Freezer (Energy Efficient)", price: 280000, category: "Kitchen" },
+      { id: "item-washer", title: "Century Automatic Washing Machine", price: 290000, category: "Home Care" },
+      { id: "item-keyboard", title: "Music Keyboard & Heavy-Duty Stand", price: 180000, category: "Music & Worship" },
+      { id: "item-bookshelf", title: "Modern 5-Tier Wooden Book Shelf", price: 85000, category: "Furniture" },
+      { id: "item-airfryer", title: "Panasonic Digital Air Fryer 6L", price: 61500, category: "Kitchen" },
+      { id: "item-pots", title: "Granite 4 Set Non-Stick Pots", price: 139000, category: "Cookware" },
+      { id: "item-toaster", title: "2-Slice Stainless Steel Bread Toaster", price: 30000, category: "Breakfast" },
+      { id: "item-hangers", title: "Generic Wooden Hanger - Set Of 10", price: 12700, category: "Closet Setup" },
+      { id: "item-cutlery", title: "Generic Set of 24pcs Gold Plated Cutlery", price: 21000, category: "Dining" }
+    ];
+
+    // Auto-check stored PIN on load
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedPin = localStorage.getItem("aag224_admin_pin");
+      if (savedPin === "2240") {
+        CURRENT_PIN = savedPin;
+        document.getElementById("authOverlay").style.display = "none";
+        fetchLiveItems();
+      }
+    });
+
+    function handlePinKeyUp(e) {
+      if (e.key === "Enter" || document.getElementById("pinInput").value.length === 4) {
+        verifyPin();
+      }
+    }
+
+    function verifyPin() {
+      const pin = document.getElementById("pinInput").value.trim();
+      if (pin === "2240") {
+        CURRENT_PIN = pin;
+        if (document.getElementById("rememberPinCheckbox").checked) {
+          localStorage.setItem("aag224_admin_pin", pin);
+        }
+        document.getElementById("authOverlay").style.display = "none";
+        fetchLiveItems();
+      } else {
+        showToast("Invalid PIN. Please try again.", true);
+        document.getElementById("pinInput").value = "";
+      }
+    }
+
+    async function fetchLiveItems() {
+      const refreshIcon = document.getElementById("refreshIcon");
+      refreshIcon.classList.add("fa-spin");
+      
+      try {
+        const res = await fetch(SCRIPT_URL);
+        const data = await res.json();
+        if (data.status === "success" && data.items) {
+          liveStates = data.items;
+          showToast("Live data synced with Google Sheets!");
+        }
+      } catch (err) {
+        showToast("Using local cache (could not reach Sheet)", true);
+      } finally {
+        refreshIcon.classList.remove("fa-spin");
+        renderDashboard();
+      }
+    }
+
+    function renderDashboard() {
+      const container = document.getElementById("itemsContainer");
+
+      // Compute Metrics
+      let totalCount = REGISTRY_ITEMS.length;
+      let availableCount = 0;
+      let giftedCount = 0;
+      let capitalRaised = 0;
+
+      REGISTRY_ITEMS.forEach(i => {
+        const current = liveStates[i.id] || { status: "available", sponsor: "" };
+        const st = current.status || "available";
+        if (st === "available") {
+          availableCount++;
+        } else {
+          giftedCount++;
+          capitalRaised += i.price;
+        }
+      });
+
+      document.getElementById("kpiTotal").innerText = totalCount;
+      document.getElementById("kpiAvailable").innerText = availableCount;
+      document.getElementById("kpiGifted").innerText = giftedCount;
+      document.getElementById("kpiCapital").innerText = "₦" + capitalRaised.toLocaleString();
+
+      // Filter & Search Evaluation
+      const filtered = REGISTRY_ITEMS.filter(item => {
+        const current = liveStates[item.id] || { status: "available" };
+        const status = current.status || "available";
+
+        const matchesFilter = (activeFilter === "all") || (status === activeFilter);
+        const matchesSearch = item.title.toLowerCase().includes(activeSearchQuery) || 
+                              item.category.toLowerCase().includes(activeSearchQuery);
+
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<p style="text-align: center; color: #888; padding: 2rem;">No registry items match the selected filter.</p>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => {
+        const current = liveStates[item.id] || { status: "available", sponsor: "" };
+        const status = current.status || "available";
+        const sponsorText = current.sponsor ? `Attached Sponsor: <strong>${current.sponsor}</strong>` : "";
+
+        let statusIcon = "fa-circle-check";
+        if (status === "bought") statusIcon = "fa-check";
+        if (status === "reserved") statusIcon = "fa-bookmark";
+
+        return `
+          <div class="item-card">
+            <div class="item-main">
+              <div class="item-title">${item.title}</div>
+              <div class="item-price">NGN ${item.price.toLocaleString()}.00 &bull; <span style="font-weight: normal; color: #888;">${item.category}</span></div>
+              <div>
+                <span class="badge-status ${status}">
+                  <i class="fa-solid ${statusIcon}"></i> ${status}
+                </span>
+              </div>
+              ${sponsorText ? `<div class="item-sponsor-meta">${sponsorText}</div>` : ''}
+            </div>
+
+            <div class="item-actions">
+              <button class="btn-act btn-bought ${status === 'bought' ? 'active' : ''}" onclick="promptSponsorAction('${item.id}', 'bought')">
+                <i class="fa-solid fa-check"></i> Bought
+              </button>
+              <button class="btn-act btn-reserved ${status === 'reserved' ? 'active' : ''}" onclick="promptSponsorAction('${item.id}', 'reserved')">
+                <i class="fa-regular fa-bookmark"></i> Reserved
+              </button>
+              <button class="btn-act btn-avail ${status === 'available' ? 'active' : ''}" onclick="directResetAvailable('${item.id}')">
+                Reset
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Modal Trigger for assigning sponsor
+    function promptSponsorAction(itemId, targetStatus) {
+      const item = REGISTRY_ITEMS.find(i => i.id === itemId);
+      pendingItemId = itemId;
+      pendingStatus = targetStatus;
+
+      document.getElementById("modalItemTitle").innerText = item ? item.title : "Assign Sponsor";
+      document.getElementById("modalActionText").innerText = `Mark as ${targetStatus.toUpperCase()}. Attach sponsor name:`;
+      document.getElementById("modalSponsorInput").value = (liveStates[itemId] && liveStates[itemId].sponsor) || "";
+
+      document.getElementById("sponsorModalOverlay").classList.add("active");
+      document.getElementById("modalSponsorInput").focus();
+    }
+
+    function closeSponsorModal() {
+      document.getElementById("sponsorModalOverlay").classList.remove("active");
+      pendingItemId = null;
+      pendingStatus = null;
+    }
+
+    function submitSponsorModal() {
+      const sponsor = document.getElementById("modalSponsorInput").value.trim();
+      const itemId = pendingItemId;
+      const newStatus = pendingStatus;
+
+      closeSponsorModal();
+      executeUpdate(itemId, newStatus, sponsor);
+    }
+
+    function directResetAvailable(itemId) {
+      executeUpdate(itemId, "available", "");
+    }
+
+    async function executeUpdate(itemId, newStatus, sponsor) {
+      // 1. Optimistic UI update
+      liveStates[itemId] = { status: newStatus, sponsor: sponsor };
+      renderDashboard();
+
+      if (newStatus === "bought") {
+        confetti({ particleCount: 70, spread: 60 });
+      }
+
+      showToast(`Item marked as ${newStatus}! Syncing...`);
+
+      // 2. Dispatch to Apps Script
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "update_registry",
+            pin: CURRENT_PIN,
+            itemId: itemId,
+            newStatus: newStatus,
+            sponsor: sponsor
+          })
+        });
+        showToast(`Saved live on Google Sheets!`);
+      } catch (err) {
+        showToast("Error updating Sheet. Check internet connection.", true);
+      }
+    }
+
+    // Filter & Search Handlers
+    function setFilter(filterType, element) {
+      activeFilter = filterType;
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      element.classList.add("active");
+      renderDashboard();
+    }
+
+    function handleSearchFilter() {
+      activeSearchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
+      renderDashboard();
+    }
+
+    // Toast Notification Display
+    let toastTimer = null;
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById("adminToast");
+      const text = document.getElementById("toastMsg");
+      const icon = document.getElementById("toastIcon");
+
+      text.innerText = msg;
+      toast.style.borderLeftColor = isError ? "var(--red)" : "var(--wine)";
+      icon.style.color = isError ? "var(--red)" : "var(--wine)";
+      icon.className = isError ? "fa-solid fa-circle-exclamation" : "fa-solid fa-circle-check";
+
+      toast.classList.add("show");
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3200);
+    }
+  </script>
+</body>
+</html>
