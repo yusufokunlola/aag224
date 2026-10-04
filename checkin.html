@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usher Check-in Portal | #AAG224</title>
+
+  <!-- Google Fonts & FontAwesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Canvas Confetti & HTML5 QR Scanner -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+  <style>
+    :root {
+      --wine: #631226;
+      --wine-dark: #430c19;
+      --gold: #c59b27;
+      --green: #2c5e3b;
+      --red: #b3261e;
+      --bg: #f7f5f0;
+      --font-sans: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      font-family: var(--font-sans);
+      color: #333;
+      padding: 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header-box {
+      text-align: center;
+      margin: 1rem 0 1.5rem;
+    }
+    .header-box h1 {
+      font-size: 1.4rem;
+      color: var(--wine);
+      font-weight: 700;
+    }
+    .header-box p {
+      font-size: 0.8rem;
+      color: #777;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .checkin-card {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+      padding: 1.5rem;
+      border: 1px solid #e0d8c8;
+    }
+
+    /* Scanner Viewport */
+    #reader {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px dashed var(--gold);
+      margin-bottom: 1.2rem;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.2rem 0;
+      color: #aaa;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .divider:not(:empty)::before { margin-right: .5em; }
+    .divider:not(:empty)::after { margin-left: .5em; }
+
+    /* Manual Input */
+    .input-row {
+      display: flex;
+      gap: 8px;
+    }
+    .input-row input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .input-row input:focus { border-color: var(--wine); }
+    .btn-verify {
+      background: var(--wine);
+      color: #fff;
+      border: none;
+      padding: 0 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    /* Result Banners */
+    .result-box {
+      margin-top: 1.5rem;
+      display: none;
+      border-radius: 8px;
+      padding: 1.2rem;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .result-box.success {
+      background: #e8f5e9;
+      border: 2px solid var(--green);
+      color: #1b5e20;
+    }
+    .result-box.duplicate {
+      background: #fff3e0;
+      border: 2px solid #e65100;
+      color: #b73e00;
+    }
+    .result-box.error {
+      background: #ffebee;
+      border: 2px solid var(--red);
+      color: #b71c1c;
+    }
+
+    .guest-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .guest-detail {
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-box">
+    <h1>Welcome Desk & Check-in</h1>
+    <p>Apheweoghene & Abayomi &bull; #AAG224</p>
+  </div>
+
+  <div class="checkin-card">
+    <!-- Camera Viewfinder -->
+    <div id="reader"></div>
+
+    <!-- Manual Code Fallback -->
+    <div class="divider">Or Type Pass ID</div>
+    <div class="input-row">
+      <input type="text" id="manualPassInput" placeholder="e.g. AAG-612208">
+      <button class="btn-verify" onclick="handleManualCheckin()">Verify</button>
+    </div>
+
+    <!-- Result Banner -->
+    <div id="resultBox" class="result-box">
+      <div id="resultIcon" style="font-size: 2rem; margin-bottom: 0.4rem;"></div>
+      <div class="guest-title" id="resultName">Guest Name</div>
+      <div class="guest-detail" id="resultMeta">Party Count &bull; Pass ID</div>
+      <div id="resultMessage" style="font-weight: 600; margin-top: 6px;"></div>
+    </div>
+  </div>
+
+  <script>
+    // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbydZ1h9IPH4BQdHMGhWJB8kbRJAapsXW9IF3ekq3I2BTJ6eHIJh7UiLzPMmBhyJCMdIaw/exec";
+
+    // Play chime sound
+    function playBeep(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        if (type === 'success') {
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+          osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
+        } else {
+          osc.frequency.setValueAtTime(220, ctx.currentTime);
+          osc.frequency.setValueAtTime(150, ctx.currentTime + 0.15);
+        }
+        osc.start();
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.3);
+        osc.stop(ctx.currentTime + 0.3);
+      } catch (e) {}
+    }
+
+    async function checkInGuest(passId) {
+      if (!passId) return;
+
+      const resBox = document.getElementById("resultBox");
+      resBox.className = "result-box";
+      resBox.style.display = "block";
+      resBox.innerHTML = "<p><i class='fa-solid fa-spinner fa-spin'></i> Verifying pass...</p>";
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "checkin",
+            passId: passId
+          })
+        });
+
+        const res = await response.json();
+
+        if (res.status === "success") {
+          playBeep('success');
+          confetti({ particleCount: 70, spread: 60 });
+
+          resBox.className = "result-box success";
+          resBox.innerHTML = `
+            <div style="font-size: 1.8rem; margin-bottom: 4px;">✅ APPROVED</div>
+            <div class="guest-title">${res.guest.name}</div>
+            <div class="guest-detail">
+              <strong>Admit:</strong> ${res.guest.count} Guest(s)<br>
+              <strong>Pass ID:</strong> #${res.guest.passId}<br>
+              <strong>Status:</strong> ${res.guest.attendance}
+            </div>
+            <div style="margin-top: 8px; font-weight: 700; color: #1b5e20;">
+              Checked in at ${res.checkinTime} &bull; Welcome email sent!
+            </div>
+          `;
+        } else if (res.status === "already_checked_in") {
+          playBeep('error');
+          resBox.className = "result-box duplicate";
+          resBox.innerHTML = `
+            <div style="font-size: 1.8rem; margin-bottom: 4px;">⚠️ ALREADY ADMITTED</div>
+            <div class="guest-title">${res.guest.name}</div>
+            <div class="guest-detail">
+              <strong>Pass ID:</strong> #${res.guest.passId} (${res.guest.count} Guests)<br>
+              <strong>Current Status:</strong> ${res.guest.checkedInStatus}
+            </div>
+            <div style="margin-top: 6px; font-weight: 700; color: #b73e00;">
+              Notice: Pass was already checked in earlier today.
+            </div>
+          `;
+        } else {
+          playBeep('error');
+          resBox.className = "result-box error";
+          resBox.innerHTML = `
+            <div style="font-size: 1.8rem; margin-bottom: 4px;">❌ INVALID PASS</div>
+            <p>No registration found for Pass ID <strong>${passId}</strong>. Please direct guest to the hospitality desk.</p>
+          `;
+        }
+      } catch (err) {
+        resBox.className = "result-box error";
+        resBox.innerHTML = "<p>Connection error. Please check internet connection.</p>";
+      }
+    }
+
+    function handleManualCheckin() {
+      const passId = document.getElementById("manualPassInput").value.trim();
+      if (!passId) return alert("Please enter a Pass ID");
+      checkInGuest(passId);
+    }
+
+    // QR Camera Scanner Configuration
+    let lastScanTime = 0;
+    function onScanSuccess(decodedText) {
+      const now = Date.now();
+      if (now - lastScanTime < 3000) return; // Prevent double trigger
+      lastScanTime = now;
+
+      // Extract Pass ID if encoded as "AAG224|AAG-612208|Name|Guests:1"
+      let passId = decodedText;
+      if (decodedText.includes("|")) {
+        const parts = decodedText.split("|");
+        passId = parts[1] || decodedText;
+      }
+      checkInGuest(passId.trim());
+    }
+
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader",
+      { fps: 10, qrbox: { width: 220, height: 220 } },
+      /* verbose= */ false
+    );
+    html5QrcodeScanner.render(onScanSuccess);
+  </script>
+</body>
+</html>
