@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<script data-goatcounter="https://aag224.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Apheweoghene & Abayomi | #AAG224</title>
+
+  <script data-goatcounter="https://aag224.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +49,9 @@
       background-size: 24px 24px;
     }
 
+
+
+
     /* Scroll Reading Indicator Bar */
     #scrollProgressBar {
       position: fixed;
@@ -59,6 +63,8 @@
       z-index: 1002;
       transition: width 0.1s ease-out;
     }
+
+
 
     /* ==============================================================
        1. ENVELOPE OPENING OVERLAY
@@ -553,6 +559,73 @@
       pointer-events: none;
     }
 
+    /* Floating Audio Player */
+    .wedding-audio-player {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 1001;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--gold);
+      box-shadow: 0 6px 20px rgba(99, 18, 38, 0.16);
+      border-radius: 40px;
+      padding: 0.4rem 0.9rem 0.4rem 0.45rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
+    .audio-disc-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--wine);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--gold);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: transform 0.2s;
+    }
+    .audio-disc-btn.playing {
+      animation: spinVinyl 3.5s linear infinite;
+    }
+    @keyframes spinVinyl {
+      100% { transform: rotate(360deg); }
+    }
+    .audio-meta {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+    .audio-meta .audio-title {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--wine);
+      letter-spacing: 0.5px;
+    }
+    .audio-meta .audio-status {
+      font-family: var(--font-sans);
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .audio-mute-toggle {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.82rem;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .audio-mute-toggle:hover { color: var(--wine); }
+
     /* ==============================================================
        4. GENERAL SECTION LAYOUT
        ============================================================== */
@@ -643,6 +716,21 @@
     @media(min-width: 768px) {
       .itinerary-grid { grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 2.2rem; }
     }
+    .program-travel-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    @media(min-width: 900px) {
+      .program-travel-layout {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+        gap: 2.5rem;
+      }
+    }
+    .program-travel-layout .itinerary-grid {
+      grid-template-columns: 1fr;
+    }
     .event-card {
       background: var(--paper);
       border-radius: 10px;
@@ -714,8 +802,115 @@
       color: #fff;
     }
 
+    /* Travel Guide */
+    .travel-guide-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .travel-guide-card {
+      background: var(--paper);
+      border: 1px solid rgba(197, 155, 39, 0.35);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px rgba(99, 18, 38, 0.05);
+    }
+    @media(min-width: 768px) {
+      .travel-guide-card { padding: 1.8rem; }
+    }
+    .travel-intro {
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .travel-tip {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 0.75rem;
+      align-items: start;
+      margin: 0.9rem 0;
+      font-family: var(--font-sans);
+      font-size: 0.84rem;
+      line-height: 1.6;
+    }
+    .travel-tip > i {
+      color: var(--gold);
+      margin-top: 0.2rem;
+      text-align: center;
+    }
+    .travel-tip strong { color: var(--text-dark); }
+    .travel-map-link { margin: 0.4rem 0 1.2rem; }
+    .travel-hotlines {
+      border-top: 1px solid var(--border-gray);
+      padding-top: 1rem;
+    }
+    .travel-hotlines h3 {
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+    }
+    .travel-contact {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.45rem;
+      padding: 0.65rem 0.75rem;
+      background: var(--gold-soft);
+      border: 1px solid rgba(197, 155, 39, 0.3);
+      border-radius: 8px;
+      color: var(--text-dark);
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+    .travel-contact strong {
+      color: var(--wine);
+      white-space: nowrap;
+    }
+    .travel-contact-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .travel-contact-phone {
+      color: var(--wine);
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .travel-whatsapp-link {
+      display: inline-flex;
+      align-items: center;
+      color: #25D366;
+      font-size: 1.05rem;
+      text-decoration: none;
+    }
+    .travel-whatsapp-link:hover { color: #1eb855; }
+    .travel-climate-note {
+      background: var(--gold-soft);
+      border: 1px solid rgba(197, 155, 39, 0.45);
+      border-radius: 12px;
+      padding: 1.2rem;
+      font-family: var(--font-sans);
+      font-size: 0.84rem;
+      line-height: 1.65;
+    }
+    .travel-climate-note h3 {
+      color: var(--wine);
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+    }
+    .travel-climate-note h3 i { color: var(--gold); }
+    .travel-climate-note p { color: var(--text-muted); }
+
     /* ==============================================================
-       5. RSVP FORM & ENTRY PASS
+       6. RSVP FORM & ENTRY PASS
        ============================================================== */
     .rsvp-container {
       display: grid;
@@ -814,7 +1009,7 @@
     }
 
     /* ==============================================================
-       6. WITHJOY-STYLE REGISTRY & BANK DETAILS
+       7. WITHJOY-STYLE REGISTRY & BANK DETAILS
        ============================================================== */
     .registry-hero-banner {
       background: linear-gradient(135deg, #fff, var(--gold-soft));
@@ -1045,7 +1240,7 @@
     }
 
     /* ==============================================================
-       7. SLIDE-OUT CART DRAWER
+       8. SLIDE-OUT CART DRAWER
        ============================================================== */
     .cart-drawer-overlay {
       position: fixed;
@@ -1240,6 +1435,25 @@
 </head>
 <body>
 
+  <!-- Background Audio -->
+  <audio id="weddingBgm" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-piano-114427.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Floating Audio Player -->
+  <div class="wedding-audio-player" id="audioPlayerWidget">
+    <button class="audio-disc-btn" id="audioDiscBtn" type="button" onclick="toggleAudio()" title="Play / Pause Ceremony Melodies" aria-label="Toggle background music">
+      <i class="fa-solid fa-play" id="audioDiscIcon"></i>
+    </button>
+    <div class="audio-meta">
+      <span class="audio-title">Ceremony Melodies</span>
+      <span class="audio-status" id="audioPlayStatus">Paused</span>
+    </div>
+    <button class="audio-mute-toggle" id="audioMuteBtn" type="button" onclick="toggleAudioMute()" title="Mute / Unmute" aria-label="Mute or unmute music">
+      <i class="fa-solid fa-volume-high" id="audioMuteIcon"></i>
+    </button>
+  </div>
+
   <!-- Scroll Progress Indicator -->
   <div id="scrollProgressBar"></div>
 
@@ -1281,6 +1495,7 @@
     <ul class="nav-links">
       <li><a href="#story">Our Story</a></li>
       <li><a href="#ceremony">Ceremony</a></li>
+      <li><a href="#travel">Travel Guide</a></li>
       <li><a href="#rsvp">RSVP</a></li>
       <li><a href="#registry">Gift Registry</a></li>
       <li>
@@ -1377,42 +1592,126 @@
        5. CEREMONY DETAILS & VENUES
        ============================================================== -->
   <section id="ceremony">
-    <div class="section-header">
-      <h2>Program of Events</h2>
-      <p>Orerokpe, Delta State</p>
-    </div>
+    <div class="program-travel-layout">
+      <div class="program-column">
+        <div class="section-header">
+          <h2>Program of Events</h2>
+          <p>Orerokpe, Delta State</p>
+        </div>
 
-    <div class="itinerary-grid">
-      <!-- Traditional Wedding -->
-      <div class="event-card">
-        <div>
-          <span class="event-badge">Traditional</span>
-          <h3>Traditional Wedding</h3>
-          <div class="event-time"><i class="fa-regular fa-clock"></i> 7:30 AM Prompt</div>
-          <div class="event-loc">
-            <i class="fa-solid fa-location-dot" style="color: var(--wine);"></i> 
-            Onorie Street, opposite The Revival Fire Ministry (The Ash upstairs), Orerokpe, Delta State.
+        <div class="itinerary-grid">
+          <!-- Traditional Wedding -->
+          <div class="event-card">
+            <div>
+              <span class="event-badge">Traditional</span>
+              <h3>Traditional Wedding</h3>
+              <div class="event-time"><i class="fa-regular fa-clock"></i> 7:30 AM Prompt</div>
+              <div class="event-loc">
+                <i class="fa-solid fa-location-dot" style="color: var(--wine);"></i>
+                Onorie Street, opposite The Revival Fire Ministry (The Ash upstairs), Orerokpe, Delta State.
+              </div>
+            </div>
+            <a href="https://maps.google.com/?q=Orerokpe+Delta+State" target="_blank" rel="noopener noreferrer" class="btn-directions">
+              <i class="fa-solid fa-diamond-turn-right"></i> Directions &rarr;
+            </a>
+          </div>
+
+          <!-- Church Wedding -->
+          <div class="event-card">
+            <div>
+              <span class="event-badge">Holy Matrimony</span>
+              <h3>Church Solemnization</h3>
+              <div class="event-time"><i class="fa-regular fa-clock"></i> 11:00 AM</div>
+              <div class="event-loc">
+                <i class="fa-solid fa-church" style="color: var(--wine);"></i>
+                St Peter's Anglican Church, Orerokpe, Delta State.
+              </div>
+            </div>
+            <a href="https://maps.app.goo.gl/r4VJ3rfuvX4bRz4s6" target="_blank" rel="noopener noreferrer" class="btn-directions">
+              <i class="fa-solid fa-diamond-turn-right"></i> Directions &rarr;
+            </a>
           </div>
         </div>
-        <a href="https://maps.google.com/?q=Orerokpe+Delta+State" target="_blank" class="btn-directions">
-          <i class="fa-solid fa-diamond-turn-right"></i> Directions &rarr;
-        </a>
       </div>
 
-      <!-- Church Wedding -->
-      <div class="event-card">
-        <div>
-          <span class="event-badge">Holy Matrimony</span>
-          <h3>Church Solemnization</h3>
-          <div class="event-time"><i class="fa-regular fa-clock"></i> 11:00 AM</div>
-          <div class="event-loc">
-            <i class="fa-solid fa-church" style="color: var(--wine);"></i> 
-            St Peter's Anglican Church, Orerokpe, Delta State.
-          </div>
+      <div class="travel-column" id="travel">
+        <div class="section-header">
+          <h2>Travel Guide</h2>
+          <p>Helpful Details for Your Trip to Delta State</p>
         </div>
-        <a href="https://maps.app.goo.gl/r4VJ3rfuvX4bRz4s6" target="_blank" class="btn-directions">
-          <i class="fa-solid fa-diamond-turn-right"></i> Directions &rarr;
-        </a>
+
+        <div class="travel-guide-grid">
+          <div class="travel-guide-card">
+            <p class="travel-intro">
+              We are delighted to host our family and friends in beautiful Delta State! Here are a few pointers for travelling guests:
+            </p>
+
+            <div class="travel-tip">
+              <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
+              <p>
+                <strong>Travelling by road?</strong> Pin <strong>Orerokpe, Delta State</strong> on your map and use the route provided. Check the directions before setting off.
+              </p>
+            </div>
+
+            <div class="travel-tip">
+              <i class="fa-solid fa-plane" aria-hidden="true"></i>
+              <p>
+                <strong>Airports:</strong> Asaba International Airport (ABB) or Osubi Airstrip (Warri) are options, with direct flights from Lagos and Abuja.
+              </p>
+            </div>
+
+            <div class="travel-tip">
+              <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+              <p>
+                <strong>Security &amp; parking:</strong> Protocol officers and guarded parking are reserved at all venues for invited guests.
+              </p>
+            </div>
+
+            <div class="travel-tip">
+              <i class="fa-solid fa-hotel" aria-hidden="true"></i>
+              <p>
+                <strong>Hotels &amp; lodging:</strong> Special guest discounts are arranged with nearby partner hotels. Contact the RSVP hotlines below for booking codes.
+              </p>
+            </div>
+
+            <a href="https://maps.google.com/?q=Orerokpe+Delta+State" target="_blank" rel="noopener noreferrer" class="btn-directions travel-map-link">
+              <i class="fa-solid fa-diamond-turn-right" aria-hidden="true"></i> Pin Orerokpe on Google Maps
+            </a>
+
+            <div class="travel-hotlines">
+              <h3>Official RSVP Hotlines</h3>
+              <div class="travel-contact">
+                <span>Esther</span>
+                <span class="travel-contact-actions">
+                  <a href="tel:+2349032728966" class="travel-contact-phone">
+                    <i class="fa-solid fa-phone" aria-hidden="true"></i> 09032728966
+                  </a>
+                  <a href="https://wa.me/2349032728966?text=Hello%20Esther%2C%20I%20have%20an%20RSVP%20inquiry%20regarding%20%23AAG224" target="_blank" rel="noopener noreferrer" class="travel-whatsapp-link" aria-label="Chat with Esther on WhatsApp">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                  </a>
+                </span>
+              </div>
+              <div class="travel-contact">
+                <span>Oladotun</span>
+                <span class="travel-contact-actions">
+                  <a href="tel:+2348168512565" class="travel-contact-phone">
+                    <i class="fa-solid fa-phone" aria-hidden="true"></i> 08168512565
+                  </a>
+                  <a href="https://wa.me/2348168512565?text=Hello%20Oladotun%2C%20I%20have%20an%20RSVP%20inquiry%20regarding%20%23AAG224" target="_blank" rel="noopener noreferrer" class="travel-whatsapp-link" aria-label="Chat with Oladotun on WhatsApp">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="travel-climate-note">
+            <h3><i class="fa-regular fa-sun" aria-hidden="true"></i> December Climate Note</h3>
+            <p>
+              Warm and bright December weather is expected, with pleasant evening breezes. Light traditional fabrics and formal attire are recommended.
+            </p>
+          </aside>
+        </div>
       </div>
     </div>
   </section>
@@ -1459,7 +1758,7 @@
 
         <!-- Direct RSVP Contacts -->
         <div style="margin-top: 1.5rem; font-family: var(--font-sans); font-size: 0.85rem; color: var(--text-muted); line-height: 1.8;">
-          <strong>Direct RSVP Inquiries:</strong><br>
+          <strong>RSVP Inquiries:</strong><br>
           <span>Esther: </span>
           <a href="tel:09032728966" style="color: var(--wine); text-decoration: none; font-weight: 600;">
             <i class="fa-solid fa-phone" style="font-size: 0.75rem;"></i> 09032728966
@@ -1524,10 +1823,10 @@
 
       <div class="registry-bank-card">
         <span class="bank-badge"><i class="fa-solid fa-building-columns"></i> Official Startup Account</span>
-        <div style="font-size: 1.1rem; font-weight: 700; color: var(--wine); margin-top: 4px;">Union Bank of Nigeria</div>
-        <div class="acc-number" id="Union Bank of NigeriaAccNum">0158038853</div>
+        <div style="font-size: 1.1rem; font-weight: 700; color: var(--wine); margin-top: 4px;">GTBank</div>
+        <div class="acc-number" id="GTBankAccNum">0157914701</div>
         <div style="font-family: var(--font-sans); font-size: 0.9rem; color: var(--text-dark); margin-bottom: 0.8rem;">
-          <strong>Stephen Justina</strong>
+          <strong>Okunlola Yusuf Abayomi</strong>
         </div>
         <button class="btn-copy-acc" onclick="copyAccountNumber()">
           <i class="fa-regular fa-copy"></i> Copy Account Number
@@ -1569,22 +1868,22 @@
       </div>
       
       <div style="background: var(--gold-soft); padding: 0.9rem; border-radius: 6px; font-family: var(--font-sans); font-size: 0.8rem; border-left: 4px solid var(--wine); margin-bottom: 1rem;">
-        <span style="color: var(--wine); font-weight: 700;">Union Bank of Nigeria Transfer Details:</span><br>
-        Bank: <strong>Union Bank of Nigeria</strong><br>
-        Account: <strong>0158038853</strong><br>
-        Name: <strong>Stephen Justina</strong>
+        <span style="color: var(--wine); font-weight: 700;">GTBank Transfer Details:</span><br>
+        Bank: <strong>GTBank</strong><br>
+        Account: <strong>0157914701</strong><br>
+        Name: <strong>Okunlola Yusuf Abayomi</strong>
       </div>
 
       <div style="margin-bottom: 0.8rem;">
         <input type="text" id="sponsorNameInput" placeholder="Your Name (so we can attach your name to it)" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-family: var(--font-sans); font-size: 0.85rem;">
       </div>
 
-      <!-- Direct WhatsApp redirect to Aphewe (08166457692) -->
+      <!-- Direct WhatsApp redirect to Abayomi (08106179714) -->
       <button class="btn-confirm-transfer" onclick="confirmTransferAndNotify()">
         <i class="fa-brands fa-whatsapp"></i> Confirm Transfer via WhatsApp
       </button>
       <p style="font-size: 0.72rem; color: var(--text-muted); text-align: center; margin-top: 0.5rem; font-family: var(--font-sans);">
-        Transfers are verified directly via WhatsApp with Apheweoghene.
+        Transfers are verified directly via WhatsApp with Abayomi.
       </p>
     </div>
   </div>
@@ -1636,6 +1935,48 @@
     let cart = [];
     let toastTimeout = null;
 
+    // Audio player controls
+    const bgAudio = document.getElementById('weddingBgm');
+    const discBtn = document.getElementById('audioDiscBtn');
+    const discIcon = document.getElementById('audioDiscIcon');
+    const statusText = document.getElementById('audioPlayStatus');
+    const muteIcon = document.getElementById('audioMuteIcon');
+
+    bgAudio.volume = 0.5;
+
+    bgAudio.addEventListener('play', () => {
+      discBtn.classList.add('playing');
+      discIcon.classList.replace('fa-play', 'fa-pause');
+      statusText.innerText = 'Playing';
+    });
+
+    bgAudio.addEventListener('pause', () => {
+      discBtn.classList.remove('playing');
+      discIcon.classList.replace('fa-pause', 'fa-play');
+      statusText.innerText = 'Paused';
+    });
+
+    bgAudio.addEventListener('error', () => {
+      statusText.innerText = 'Unavailable';
+    });
+
+    function toggleAudio() {
+      if (bgAudio.paused) {
+        bgAudio.play().catch(() => {
+          showToast('Audio playback is unavailable. Please try again later.', 'fa-volume-xmark', true);
+        });
+      } else {
+        bgAudio.pause();
+      }
+    }
+
+    function toggleAudioMute() {
+      bgAudio.muted = !bgAudio.muted;
+      muteIcon.classList.toggle('fa-volume-high', !bgAudio.muted);
+      muteIcon.classList.toggle('fa-volume-xmark', bgAudio.muted);
+      showToast(bgAudio.muted ? 'Audio muted' : 'Audio unmuted', bgAudio.muted ? 'fa-volume-xmark' : 'fa-volume-high');
+    }
+
     // Default Registry Item Master List
     const registryItems = [
       // --- Funds & Foundation ---
@@ -1684,6 +2025,10 @@
 
       stage.classList.add("opening");
 
+      bgAudio.play().catch(() => {
+        showToast('Audio playback is unavailable. Use the player controls to try again.', 'fa-volume-xmark', true);
+      });
+
       setTimeout(() => {
         confetti({
           particleCount: 120,
@@ -1729,8 +2074,8 @@
     }
 
     function copyAccountNumber() {
-      navigator.clipboard.writeText("0158038853");
-      showToast("Union Bank of Nigeria account number (0158038853) copied to clipboard!");
+      navigator.clipboard.writeText("0157914701");
+      showToast("GTBank account number (0157914701) copied to clipboard!");
     }
 
     // --------------------------------------------------------------
@@ -1990,7 +2335,7 @@
       const itemNames = cart.map(i => i.title).join(', ');
 
       const msg = encodeURIComponent(
-        `Hello Apheweoghene, I have sent a bank transfer of NGN ${totalAmount.toLocaleString()}.00 for the following registry item(s):\n\n` +
+        `Hello Abayomi, I have sent a bank transfer of NGN ${totalAmount.toLocaleString()}.00 for the following registry item(s):\n\n` +
         `📦 *Item(s):* ${itemNames}\n` +
         `👤 *Sponsor Name:* ${sponsor}\n\n` +
         `Please verify and mark as bought once confirmed! Congratulations on #AAG224! 🤍`
@@ -2010,8 +2355,8 @@
         `<em>Once your transfer is received and verified, the item will be officially marked as gifted on the registry.</em>`
       );
 
-      // WhatsApp Forwarding to Apheweoghene (08166457692)
-      window.open(`https://wa.me/2348166457692?text=${msg}`, '_blank');
+      // WhatsApp Forwarding to Abayomi (08106179714)
+      window.open(`https://wa.me/2348106179714?text=${msg}`, '_blank');
     }
 
     // --------------------------------------------------------------
